@@ -1,9 +1,10 @@
+// src/screens/OnboardingScreen.js
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 
 const OnboardingScreen = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true); // To toggle between Login and Register
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ const OnboardingScreen = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{isLogin ? 'Welcome Back!' : 'Create Account'}</Text>
@@ -58,6 +60,7 @@ const OnboardingScreen = () => {
   );
 };
 
+// Add styles (you can customize these later)
 const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'center', padding: 20 },
     title: { fontSize: 32, fontWeight: 'bold', textAlign: 'center', marginBottom: 40 },

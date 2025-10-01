@@ -38,10 +38,9 @@ const ProfileScreen = () => {
       'Logout',
       'Are you sure you want to logout?',
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: 'Cancel' },
         {
           text: 'Logout',
-          style: 'destructive',
           onPress: async () => {
             try {
               await logout();
@@ -76,10 +75,9 @@ const ProfileScreen = () => {
       'Delete Account',
       'Are you sure you want to delete your account? This action cannot be undone.',
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: 'Cancel' },
         {
           text: 'Delete',
-          style: 'destructive',
           onPress: () => {
             Alert.alert(
               'Account Deletion',

@@ -26,7 +26,7 @@ const ScannerScreen = ({ navigation }) => {
           'Product Not Found',
           `Barcode ${barcode} is not in our database. Would you like to add it?`,
           [
-            { text: 'Cancel', style: 'cancel', onPress: () => setIsLoading(false) },
+            { text: 'Cancel', onPress: () => setIsLoading(false) },
             { text: 'Add Product', onPress: () => {
                 navigation.navigate('AddProduct', { barcode });
                 setIsLoading(false);

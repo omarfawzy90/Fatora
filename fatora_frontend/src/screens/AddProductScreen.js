@@ -78,7 +78,7 @@ const AddProductScreen = () => {
       'Select Image',
       'Choose how you want to add a product image',
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: 'Cancel' },
         { 
           text: 'Camera', 
           onPress: () => {

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import {
-  View,
+  Animated,View,
   Text,
   StyleSheet,
   FlatList,
@@ -80,10 +80,9 @@ function HomeScreen({ navigation }) {
       'Remove Item',
       'Are you sure you want to remove this item from your cart?',
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: 'Cancel' },
         {
           text: 'Remove',
-          style: 'destructive',
           onPress: () => {
             setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
           },
@@ -96,38 +95,26 @@ function HomeScreen({ navigation }) {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
   };
 
-  const handleCheckout = () => {
-    if (cartItems.length === 0) {
-      Alert.alert('Empty Cart', 'Please add items to your cart before checkout');
-      return;
-    }
-    
-    Alert.alert(
-      'Checkout',
-      `Total: $${calculateTotal()}\n\nCheckout functionality will be implemented in future updates.`,
-      [{ text: 'OK' }]
-    );
-  };
 
   const renderCartItem = ({ item }) => (
-    <View style={styles.cartItem}>
-      <View style={styles.itemImageContainer}>
+    <Animated.View style={styles.cartItem}>
+      <Animated.View style={styles.itemImageContainer}>
         {item.image ? (
           <Image source={{ uri: item.image }} style={styles.itemImage} />
         ) : (
-          <View style={styles.placeholderImage}>
+          <Animated.View style={styles.placeholderImage}>
             <Text style={styles.placeholderText}>No Image</Text>
-          </View>
+          </Animated.View>
         )}
-      </View>
+      </Animated.View>
       
-      <View style={styles.itemDetails}>
+      <Animated.View style={styles.itemDetails}>
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemBrand}>{item.brand}</Text>
         <Text style={styles.itemPrice}>${item.price}</Text>
-      </View>
+      </Animated.View>
       
-      <View style={styles.quantityContainer}>
+      <Animated.View style={styles.quantityContainer}>
         <TouchableOpacity
           style={styles.quantityButton}
           onPress={() => updateQuantity(item.id, item.quantity - 1)}
@@ -143,7 +130,7 @@ function HomeScreen({ navigation }) {
         >
           <Text style={styles.quantityButtonText}>+</Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
       
       <TouchableOpacity
         style={styles.removeButton}
@@ -151,11 +138,11 @@ function HomeScreen({ navigation }) {
       >
         <Text style={styles.removeButtonText}>×</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 
   const renderEmptyCart = () => (
-    <View style={styles.emptyContainer}>
+    <Animated.View style={styles.emptyContainer}>
       <Text style={styles.emptyTitle}>Your cart is empty</Text>
       <Text style={styles.emptySubtitle}>Start scanning products to add them to your cart</Text>
       <TouchableOpacity
@@ -164,12 +151,12 @@ function HomeScreen({ navigation }) {
       >
         <Text style={styles.scanButtonText}>Start Scanning</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+      <Animated.View style={styles.header}>
         <Text style={styles.headerTitle}>Shopping Cart</Text>
         <TouchableOpacity
           style={styles.scanHeaderButton}
@@ -177,7 +164,7 @@ function HomeScreen({ navigation }) {
         >
           <Text style={styles.scanHeaderButtonText}>Scan</Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
 
       {cartItems.length === 0 ? (
         renderEmptyCart()
@@ -193,19 +180,12 @@ function HomeScreen({ navigation }) {
             }
           />
           
-          <View style={styles.footer}>
-            <View style={styles.totalContainer}>
+          <Animated.View style={styles.footer}>
+            <Animated.View style={styles.totalContainer}>
               <Text style={styles.totalLabel}>Total:</Text>
               <Text style={styles.totalAmount}>${calculateTotal()}</Text>
-            </View>
-            
-            <TouchableOpacity
-              style={styles.checkoutButton}
-              onPress={handleCheckout}
-            >
-              <Text style={styles.checkoutButtonText}>Checkout</Text>
-            </TouchableOpacity>
-          </View>
+            </Animated.View>
+          </Animated.View>
         </>
       )}
     </SafeAreaView>

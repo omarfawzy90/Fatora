@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../services/api.js';
+import api from '../services/api';
 
 const AuthContext = createContext();
 
@@ -13,12 +13,14 @@ const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    // Check for a token when the app starts
     const loadToken = async () => {
       const token = await AsyncStorage.getItem('auth_token');
       if (token) {
+        // In a real app, you would also fetch the user profile here
         setAuthState({
           token: token,
-          user: { name: 'Logged In User' }, 
+          user: { name: 'Logged In User' }, // Placeholder
           isAuthenticated: true,
           isLoading: false,
         });
