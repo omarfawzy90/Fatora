@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthContext, AuthProvider } from './src/context/AuthContext';
@@ -26,7 +26,17 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#28a745',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      >
         {authState.isAuthenticated ? (
           <>
             {/* Main tab navigator */}
@@ -35,14 +45,16 @@ const AppNavigator = () => {
               component={AppTabs} 
               options={{ headerShown: false }} 
             />
-            {/* Modal screens that can be accessed from anywhere */}
+            {/* Modal screens with platform-specific configuration */}
             <Stack.Screen 
               name="Scanner" 
               component={ScannerScreen} 
               options={{ 
                 title: 'Scan Barcode',
-                presentation: 'modal',
-                headerShown: true 
+                headerShown: true,
+                ...(Platform.OS === 'ios' && {
+                  presentation: 'fullScreenModal',
+                }),
               }} 
             />
             <Stack.Screen 
@@ -50,8 +62,10 @@ const AppNavigator = () => {
               component={AddProductScreen} 
               options={{ 
                 title: 'Add New Product',
-                presentation: 'modal',
-                headerShown: true 
+                headerShown: true,
+                ...(Platform.OS === 'ios' && {
+                  presentation: 'fullScreenModal',
+                }),
               }} 
             />
           </>

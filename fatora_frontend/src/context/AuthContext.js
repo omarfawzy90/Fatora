@@ -15,21 +15,37 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Check for a token when the app starts
     const loadToken = async () => {
-      const token = await AsyncStorage.getItem('auth_token');
-      if (token) {
-        // In a real app, you would also fetch the user profile here
+      try {
+        const token = await AsyncStorage.getItem('auth_token');
+        if (token) {
+          // In a real app, you would also fetch the user profile here
+          setAuthState({
+            token: token,
+            user: { name: 'Logged In User' }, // Placeholder
+            isAuthenticated: true,
+            isLoading: false,
+          });
+        } else {
+          // FIXED: Don't spread authState to avoid dependency issues
+          setAuthState({
+            token: null,
+            user: null,
+            isAuthenticated: false,
+            isLoading: false,
+          });
+        }
+      } catch (error) {
+        console.error('Error loading token:', error);
         setAuthState({
-          token: token,
-          user: { name: 'Logged In User' }, // Placeholder
-          isAuthenticated: true,
+          token: null,
+          user: null,
+          isAuthenticated: false,
           isLoading: false,
         });
-      } else {
-        setAuthState({ ...authState, isLoading: false });
       }
     };
     loadToken();
-  }, []);
+  }, []); // Empty dependency array - only run once on mount
 
   const register = async (firstName, lastName, email, password, passwordConfirmation) => {
     try {
@@ -42,7 +58,7 @@ const AuthProvider = ({ children }) => {
       });
       await login(email, password);
     } catch (error) {
-      console.error('Registration failed:', error.response.data);
+      console.error('Registration failed:', error.response?.data || error.message);
       throw error;
     }
   };
@@ -59,24 +75,24 @@ const AuthProvider = ({ children }) => {
         isLoading: false,
       });
     } catch (error) {
-      console.error('Login failed:', error.response.data);
+      console.error('Login failed:', error.response?.data || error.message);
       throw error;
     }
   };
 
   const logout = async () => {
     try {
-        await api.post('/logout');
-    } catch(error) {
-        console.error("Logout failed:", error.response.data);
+      await api.post('/logout');
+    } catch (error) {
+      console.error("Logout failed:", error.response?.data || error.message);
     } finally {
-        await AsyncStorage.removeItem('auth_token');
-        setAuthState({
-          token: null,
-          user: null,
-          isAuthenticated: false,
-          isLoading: false,
-        });
+      await AsyncStorage.removeItem('auth_token');
+      setAuthState({
+        token: null,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
     }
   };
 
