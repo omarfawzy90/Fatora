@@ -3,11 +3,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 import HomeScreen from './screens/HomeScreen';
-import ScannerScreen from './screens/ScannerScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
-// You can create this file as a placeholder for now
-const RecentScreen = () => null; 
+// Placeholder for Recent screen
+const RecentScreen = () => {
+  const { View, Text, StyleSheet } = require('react-native');
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontSize: 18, color: '#6c757d' }}>Recent Scans</Text>
+      <Text style={{ fontSize: 14, color: '#adb5bd', marginTop: 10 }}>
+        Coming Soon
+      </Text>
+    </View>
+  );
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -20,8 +29,6 @@ const AppTabs = () => {
 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Scan') {
-            iconName = focused ? 'scan-circle' : 'scan-circle-outline';
           } else if (route.name === 'Recent') {
             iconName = focused ? 'time' : 'time-outline';
           } else if (route.name === 'Profile') {
@@ -30,17 +37,12 @@ const AppTabs = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#28a745', // Your app's green color
+        tabBarActiveTintColor: '#28a745',
         tabBarInactiveTintColor: 'gray',
-        headerShown: false, // We will use custom headers in each screen
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen 
-        name="Scan" 
-        component={ScannerScreen} 
-        // We can add a listener to open this as a modal if desired
-      />
       <Tab.Screen name="Recent" component={RecentScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

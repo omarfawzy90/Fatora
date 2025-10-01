@@ -98,7 +98,7 @@ const AddProductScreen = () => {
   };
 
   const handleScanBarcode = () => {
-    navigation.navigate('Scanner', { returnTo: 'AddProduct' });
+    navigation.navigate('Scanner');
   };
 
   const handleSubmit = async () => {

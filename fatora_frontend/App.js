@@ -6,10 +6,10 @@ import { AuthContext, AuthProvider } from './src/context/AuthContext';
 import AppTabs from './src/AppTabs'; 
 import OnboardingScreen from './src/screens/OnboardingScreen';
 import AddProductScreen from './src/screens/AddProductScreen';
+import ScannerScreen from './src/screens/ScannerScreen';
 import { enableScreens } from 'react-native-screens';
 
 enableScreens();
-
 
 const Stack = createNativeStackNavigator();
 
@@ -28,14 +28,34 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {authState.isAuthenticated ? (
-          // When logged in, the main component is the Tab Navigator,
-          // and the AddProduct screen is available on top of it.
           <>
-            <Stack.Screen name="Main" component={AppTabs} options={{ headerShown: false }} />
-            <Stack.Screen name="AddProduct" component={AddProductScreen} options={{ title: 'Add New Product' }} />
+            {/* Main tab navigator */}
+            <Stack.Screen 
+              name="Main" 
+              component={AppTabs} 
+              options={{ headerShown: false }} 
+            />
+            {/* Modal screens that can be accessed from anywhere */}
+            <Stack.Screen 
+              name="Scanner" 
+              component={ScannerScreen} 
+              options={{ 
+                title: 'Scan Barcode',
+                presentation: 'modal',
+                headerShown: true 
+              }} 
+            />
+            <Stack.Screen 
+              name="AddProduct" 
+              component={AddProductScreen} 
+              options={{ 
+                title: 'Add New Product',
+                presentation: 'modal',
+                headerShown: true 
+              }} 
+            />
           </>
         ) : (
-          // When logged out, only show the onboarding screen
           <Stack.Screen
             name="Onboarding"
             component={OnboardingScreen}
